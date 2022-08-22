@@ -2,6 +2,9 @@ import React, { DragEvent, FC, useContext } from 'react'
 import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
 import { Entry } from '../../interfaces/entry';
 import { UIContext } from '../../context/ui/UIContext';
+import { useRouter } from 'next/router';
+import { dateFunctions } from '../../utils';
+
 
 interface Props {
     entry: Entry;
@@ -10,6 +13,8 @@ interface Props {
 export const EntryCard: FC<Props> = ({ entry}) => {
     
     const { stratDragging, endDragging } = useContext(UIContext)
+
+    const router = useRouter()
 
     const onDragStart = (event: DragEvent) =>{
         //Modificar el estado para hacer drag
@@ -24,8 +29,15 @@ export const EntryCard: FC<Props> = ({ entry}) => {
 
     }
 
+    const onClick = () => {
+        //validación para entrar al id de la tarea
+        router.push(`/entries/${ entry._id }`);
+    }
+
   return (
-    <Card sx={{ marginBottom: 1 }}
+    <Card 
+    onClick={ onClick }
+    sx={{ marginBottom: 1 }}
     // Eventos de drag
     draggable
     onDragStart={ onDragStart }
@@ -37,7 +49,7 @@ export const EntryCard: FC<Props> = ({ entry}) => {
             </CardContent>
 
             <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-                <Typography variant='body2'>hace 30 minutos</Typography>
+                <Typography variant='body2'>{dateFunctions.getFormatDistanceToNow(entry.createdAt)}</Typography>
             </CardActions>
         </CardActionArea>
 
