@@ -4,9 +4,11 @@ import { Entry } from '../../interfaces/entry';
 interface ContextProps {
     entries: Entry[]; //Contexto que exporta y expone a sus hijos
 
-    //Metodos
+    //Metodos CRUD
     addNewEntry: (description:string) => void;
-    updateEntry: (entry: Entry) => void;
+    updateEntry: (entry: Entry, showSnackbar: boolean) => void;
+    deleteEntry: (entry: Entry, showSnackbar: boolean) => void;
+
 
 }
 
